@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from datetime import datetime
+from datetime import datetime, date
 from .models import *
 
 
@@ -16,18 +16,23 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 
 class ReservationSerializer(serializers.ModelSerializer):
+    # start_date = serializers.DateField()
+    # end_date = serializers.DateField()
+
     class Meta:
         model = Reservation
         fields = "__all__"
 
-    def validate_date_range(self, start, end):
-        d1 = datetime.strptime(start, "%Y/%m/%d")
-        d2 = datetime.strptime(end, "%Y/%m/%d")
-        today = datetime.today()
-        if (d1 - today) < 0:
+    def validate(self, data):
+        d1 = data["start_date"]
+        d2 = data["end_date"]
+        today = date.today()
+        print("test")
+        print(d1, d2, today)
+        if d1 > today:
             raise serializers.ValidationError(
                 "Vehicle must be rented from today onwards.")
-        if (d2 - d1) <= 0:
+        if d1 >= d2:
             raise serializers.ValidationError(
                 "Vehicles must be rented for atleast one day.")
-        return f"{start} to {end} is a valid range"
+        return f"{d1} to {d2} is a valid range"

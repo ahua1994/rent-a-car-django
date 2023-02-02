@@ -7,12 +7,12 @@ from .models import *
 
 
 class ReservationView(CreateAPIView):
-    queryset = Reservation
+    queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
 
 
 class ReservationRUDView(RetrieveUpdateDestroyAPIView):
-    queryset = Reservation
+    queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
 
 
@@ -22,5 +22,5 @@ class ReservationRUDView(RetrieveUpdateDestroyAPIView):
 
 
 class CarView(ListAPIView):
-    queryset = Car
+    queryset = Car.objects.all()
     serializer_class = CarSerializer
