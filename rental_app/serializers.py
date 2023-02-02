@@ -29,10 +29,10 @@ class ReservationSerializer(serializers.ModelSerializer):
         today = date.today()
         print("test")
         print(d1, d2, today)
-        if d1 > today:
+        if d1 < today:
             raise serializers.ValidationError(
                 "Vehicle must be rented from today onwards.")
         if d1 >= d2:
             raise serializers.ValidationError(
-                "Vehicles must be rented for atleast one day.")
-        return f"{d1} to {d2} is a valid range"
+                "Vehicle must be rented for at least one day.")
+        return data
