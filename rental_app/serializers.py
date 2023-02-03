@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from datetime import datetime, date
+# from datetime import datetime, date
+from django.utils import timezone
 from .models import *
 
 
@@ -26,9 +27,8 @@ class ReservationSerializer(serializers.ModelSerializer):
     def validate(self, data):
         d1 = data["start_date"]
         d2 = data["end_date"]
-        today = date.today()
-        print("test")
-        print(d1, d2, today)
+        today = timezone.now().date()
+        print("start", d1, "today", today)
         if d1 < today:
             raise serializers.ValidationError(
                 "Vehicle must be rented from today onwards.")
